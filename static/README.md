@@ -11,9 +11,7 @@ You can prototype your own personal LINE bot in 5 minutes right now.
 
 Scan this QR code below to [add the bot (@605xwmmj)](https://line.me/R/ti/p/%40605xwmmj):
 
-[add the bot (@605xwmmj)](https://line.me/R/ti/p/%40605xwmmj)
-
-<a href="https://line.me/R/ti/p/%40605xwmmj"><img src="https://qr-official.line.me/sid/M/605xwmmj.png"></a>
+[![Add the bot](https://qr-official.line.me/sid/M/605xwmmj.png)](https://line.me/R/ti/p/%40605xwmmj)
 
 ### Step 2: Tell the bot to use the URL
 
@@ -143,3 +141,10 @@ For example, the following PHP script will make the bot send back the text you e
 ```php
 <?php print_r($_POST);
 ```
+
+### Persisting state
+
+You can use HTTP cookies to store the state via `set-cookie` header.
+On the next message, the bot will send back the stored cookies.
+
+**NOTE:** All URLs will share the same cookie storage (as if they are from the same domain).

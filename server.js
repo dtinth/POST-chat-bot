@@ -225,7 +225,7 @@ const handleMessageEvent = async event => {
 
   const jar = getJar(userId)
   // https://github.com/axios/axios/issues/48
-  const cookie = (await promisify(jar.getCookies).call(jar, url))
+  const cookie = (await promisify(jar.getCookies).call(jar, 'https://localhost/'))
   console.log(cookie)
   const response = await axios.post(url, qs.stringify(params), {
     headers: {
@@ -235,7 +235,7 @@ const handleMessageEvent = async event => {
   });
   console.log(response.headers)
   await (response.headers['set-cookie'] || []).map(c => {
-    return promisify(jar.setCookie).call(jar, Cookie.parse(c), response.config.url)
+    return promisify(jar.setCookie).call(jar, Cookie.parse(c), 'https://localhost/')
   })
   jar.serialize(console.log)
 
