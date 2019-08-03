@@ -50,6 +50,14 @@ exports.endpoint = createEndpoint(async request => {
 
 Here are some code examples for you to try:
 
+-   This will make the bot give you the text you entered:
+
+    ```js
+    exports.endpoint = createEndpoint(async request => {
+        return request.body.text
+    })
+    ```
+
 -   Inspecting the request:
 
     ```js
@@ -58,13 +66,6 @@ Here are some code examples for you to try:
     })
     ```
 
--   Repeating the text you entered:
-
-    ```js
-    exports.endpoint = createEndpoint(async request => {
-        return request.body.text
-    })
-    ```
 
 -   Give you a random number between 1 and 6:
 

@@ -5,6 +5,10 @@ const axios = require('axios');
 const didYouMean = require('didyoumean');
 const qs = require('qs');
 
+if (process.env.GIT_EMAIL) {
+  require('child_process').execSync(`git config user.email ${process.env.GIT_EMAIL}`)
+}
+
 const config = {
   channelAccessToken: process.env.TOKEN,
   channelSecret: process.env.SECRET
@@ -219,4 +223,6 @@ const handleMessageEvent = async event => {
   ]    
 }
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('App started')
+});
