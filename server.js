@@ -44,11 +44,16 @@ const handleEvent = async event => {
     return null;
   }
   try {
-    return client.replyMessage(event.replyToken, await handleMessageEvent(event));
+    await client.replyMessage(event.replyToken, await handleMessageEvent(event));
   } catch (e) {
+    if (e.originalError) {
+      console.error(e.originalError.response && e.originalError.response.data)
+    }
     console.error(e)
   }
 }
+
+const generateSecret = () => 'SK' + require('crypto').randomBytes(20).toString('hex')
 
 const handleMessageEvent = async event => {
   const userId = event.source.userId
@@ -59,7 +64,7 @@ const handleMessageEvent = async event => {
   const url = await storage.get(`${userId}.url`)
   let secret = await storage.get(`${userId}.secret`)
   if (!secret) {
-    secret = 'SK' + require('crypto').randomBytes(20).toString('hex')
+    secret = generateSecret()
     await storage.set(`${userId}.secret`, secret)
   }
 
@@ -70,7 +75,45 @@ const handleMessageEvent = async event => {
       {
         name: 'set-url',
         usage: '<URL>',
-        description: 'Set a URL'
+        description: 'Set a URL',
+        async run(text) {
+          if (!text || !text.match(/^https:\/\//)) {
+            return {
+              type: 'text',
+              text: 'Hmmm... It seems the URL you sent me is not an https URL. The URL should begin with `https://`.'
+            }
+          }
+          const url = text
+          return [
+            {
+              type: 'text',
+              text: `Alright! I’ve changed the URL :D`
+            },
+            {
+              type: 'text',
+              text: `Now when you send me messages, I will make a POST request to that URL.`
+            },
+            {
+              type: 'text',
+              text: `The "secret" parameter is ${secret}. Check it to verify that the request came from me.`
+            },
+          ]
+        }
+      },
+      {
+        name: 'reset-secret',
+        usage: '',
+        description: 'Resets the secret.',
+        async run(text) {
+          secret = generateSecret()
+          await storage.set(`${userId}.secret`, secret)
+          return [
+            {
+              type: 'text',
+              text: `The "secret" parameter has been changed to "${secret}. Check it to verify that the request came from me.`
+            },
+          ]
+        }
       }
     ]
     if (m) {
@@ -80,10 +123,10 @@ const handleMessageEvent = async event => {
             type: 'text',
             text: 'Hmmm... When you invoked `/post`, you should follow it with a command... such as:'
           },
-          ...commands.map(c => ({
+          {
             type: 'text',
-            text: `/post ${c.name} ${c.usage}`.trim() + '\n' + c.description
-          })).join('\n')
+            text: commands.map(c => `/post ${c.name} ${c.usage}`.trim() + '\n    ' + c.description).join('\n\n')
+          },
         ]
       }
       const commandName = m[1].toLowerCase()
@@ -100,11 +143,12 @@ const handleMessageEvent = async event => {
           ...result ? [
             {
               type: 'text',
-              text: `Did you meant… \`/post ${result} ...\`?`
+              text: `Did you meant... \`/post ${result} ...\`?`
             },
           ] : []
         ]
       }
+      return await matchedCommand.run(m[2])
     }
   }
 
