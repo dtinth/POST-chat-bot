@@ -18,9 +18,13 @@ Scan this QR code below to <a href="https://line.me/R/ti/p/%40605xwmmj">add the 
 Send this text to the bot:
 
 <div class="chat-bubbles">
-  <p class="me">/post set-url <strong id="endpointText">https://<em>[please wait...]</em></strong></p>
-  <p class="you">Alright! I’ve changed the URL 😊</p>
-  <p class="you">From now, when you send me messages, I will make a POST request to that URL.</p>
+  <p class="bubble -me -clickable" onclick="docsUtils.copy('copyText')">
+    <span id="copyText">/post set-url <strong id="endpointText">https://<em>[please wait...]</em></strong></span>
+    <br>
+    <small style="opacity: 0.5">(Click to copy)</small>
+  </p>
+  <p class="bubble -you">Alright! I’ve changed the URL 😊</p>
+  <p class="bubble -you">From now, when you send me messages, I will make a POST request to that URL.</p>
 </div>
 
 ### Step 3: Send it messages
@@ -28,8 +32,8 @@ Send this text to the bot:
 When you send it a message, it will reply back with “Hello world!”
 
 <div class="chat-bubbles">
-  <p class="me">test</p>
-  <p class="you">Hello world!</p>
+  <p class="bubble -me">test</p>
+  <p class="bubble -you">Hello world!</p>
 </div>
 
 ### Step 4: Edit the code
@@ -37,9 +41,8 @@ When you send it a message, it will reply back with “Hello world!”
 You can change the code below, to make it do more things!
 
 <div id="runkitEmbed">
-var endpoint = require("@runkit/runkit/json-endpoint/1.0.0");
-endpoint(exports, request => {
-  return "Hello, world!"
+exports.endpoint = createEndpoint(async request => {
+    return request
 })
 </div>
 

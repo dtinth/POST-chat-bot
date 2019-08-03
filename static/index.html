@@ -17,24 +17,30 @@
       border: 2px solid var(--sidebar-border-color);
       padding: 24px;
     }
-    .chat-bubbles > p {
+    .chat-bubbles > .bubble {
       margin: 10px 0;
       border-radius: 20px;
       padding: 10px 20px;
     }
-    .chat-bubbles > p:last-child {
+    .chat-bubbles > .bubble > small {
+      opacity: 0.9;
+    }
+    .chat-bubbles > .bubble:last-child {
       margin-bottom: 0;
     }
-    .chat-bubbles > p:first-child {
+    .chat-bubbles > .bubble:first-child {
       margin-top: 0;
     }
-    .chat-bubbles > .me {
+    .chat-bubbles > .bubble.-me {
       background: #BDF387;
       align-self: flex-end;
     }
-    .chat-bubbles > .you {
+    .chat-bubbles > .bubble.-you {
       background: #E4E8EB;
       align-self: flex-start;
+    }
+    .chat-bubbles > .bubble.-clickable {
+      cursor: pointer;
     }
   </style>
 </head>
@@ -83,6 +89,7 @@
                 source: source,
                 element: el,
                 mode: 'endpoint',
+                preamble: "const { createEndpoint } = require('@runkit/dtinth/post-endpoint-utils/1.0.0')\n",
                 onURLChanged: function(notebook) {
                   var text = document.getElementById("endpointText");
                   text.innerHTML = notebook.endpointURL;
@@ -92,6 +99,16 @@
           });
         }
       ]
+    }
+    var docsUtils = {
+      // https://stackoverflow.com/questions/36639681/how-to-copy-text-from-a-div-to-clipboard
+      copy(id) {
+        var range = document.createRange();
+        range.selectNode(document.getElementById(id));
+        window.getSelection().removeAllRanges();
+        window.getSelection().addRange(range);
+        document.execCommand("copy");
+      }
     }
   </script>
   <script src="//unpkg.com/docsify@4.9.4/lib/docsify.min.js"></script>
