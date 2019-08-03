@@ -98,6 +98,7 @@ const handleMessageEvent = async event => {
 
   console.log(`[${new Date()}] Message from ${userId}`)
   const url = await storage.get(`users.${userId}.url`)
+  const profile = await client.getProfile(userId)
   let secret = await storage.get(`users.${userId}.secret`)
   if (!secret) {
     secret = generateSecret()
@@ -214,6 +215,8 @@ const handleMessageEvent = async event => {
   };
   params.secret = secret;
   params.user_id = userId;
+  params.user_name = profile.displayName;
+  params.user_picture_url = profile.pictureUrl;
   params.id = event.message.id;
   params.type = event.message.type;
   if (event.message.text) {
