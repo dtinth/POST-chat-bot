@@ -193,6 +193,7 @@ const handleMessageEvent = async event => {
   };
   params.secret = secret;
   params.user_id = userId;
+  params.id = event.message.id;
   params.type = event.message.type;
   if (event.message.text) {
     params.text = event.message.text;
@@ -200,9 +201,7 @@ const handleMessageEvent = async event => {
   if (event.message.stickerId) {
     params.sticker = [event.message.packageId, event.message.stickerId].join('/');
   }
-  if (event.message.stickerId) {
-    params.raw = JSON.stringify(event);
-  }
+  params.raw = JSON.stringify(event);
   const response = await axios.post(url, qs.stringify(params), {
     responseType: 'text',
     // https://github.com/axios/axios/issues/907
