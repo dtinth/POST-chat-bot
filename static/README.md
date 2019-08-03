@@ -106,7 +106,7 @@ The POST body will contain these fields:
 | field | description |
 | ----- | ----------- |
 | `id` | The message ID from LINE. |
-| `secret` | The secret key that can be checked to ensure that the message came from the bot. |
+| `secret` | The secret key that can be checked to ensure that the message came from the bot. See the "Verifying request authenticity" section. |
 | `user_id` | The user ID that sent the message. |
 | `type` | The type of the message, such as `text` or `sticker`. |
 | `text` | For `type=text`, the text message. |
@@ -131,3 +131,24 @@ You can use HTTP cookies to store the state via `set-cookie` header.
 On the next message, the bot will send back the stored cookies.
 
 **NOTE:** All URLs will share the same cookie storage (as if they are from the same domain).
+
+### Verifying request authenticity
+
+When you set the URL, the bot will give you a "secret" string.
+
+<div class="chat-bubbles">
+  <p class="bubble -me">/post set-url &lt;URL&gt;</p>
+  <p class="bubble -you">Alright! I’ve changed the URL 😊</p>
+  <p class="bubble -you">From now, when you send me messages, I will make a POST request to that URL.</p>
+  <p class="bubble -you">To verify that the request came from me, you can check the "secret" parameter, which should be:</p>
+  <p class="bubble -you"><strong>SK5d3759ec6f0de68106b660a64696174316bd574a</strong></p>
+</div>
+
+This secret string is private between you and the bot.
+When making a POST request, the bot will send this secret string in the POST body under a parameter called `secret`.
+In PHP, you can access this via `$_POST['secret']`.
+
+```php
+
+```
+

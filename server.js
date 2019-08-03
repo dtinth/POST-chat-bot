@@ -160,7 +160,7 @@ const handleMessageEvent = async event => {
             },
           ]
         }
-      }
+      },
     ]
     if (m) {
       if (!m[1]) {
