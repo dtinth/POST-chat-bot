@@ -4,13 +4,11 @@ const fs = require('fs');
 const axios = require('axios').create({
   responseType: 'text'
 });
-const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const didYouMean = require('didyoumean');
 const qs = require('qs');
 const cookieStore = require('tough-cookie-file-store');
-const CookieJar = require('tough-cookie').CookieJar;
-
-axiosCookieJarSupport(axios);
+const { Cookie, CookieJar } = require('tough-cookie');
+const { promisify } = require('util');
 
 if (process.env.GIT_EMAIL) {
   require('child_process').execSync(`git config user.email ${process.env.GIT_EMAIL}`)
@@ -226,12 +224,21 @@ const handleMessageEvent = async event => {
   params.raw = JSON.stringify(event);
 
   const jar = getJar(userId)
+  // https://github.com/axios/axios/issues/48
+  const cookie = (await promisify(jar.getCookies).call(jar, config.url))
+  console.log(cookie)
   const response = await axios.post(url, qs.stringify(params), {
-    jar,
+    headers: {
+      cookie,
+    },
     withCredentials: true,
   });
   console.log(response.headers)
-  console.log(jar)
+  await (response.headers['set-cookie'] || []).map(c => {
+    return promisify(jar.setCookie).call(jar, Cookie.parse(c), response.config.url)
+  })
+  jar.serialize(console.log)
+
   let data = response.data
   if (typeof data !== 'string') {
     data = JSON.stringify(data, null, 2)
