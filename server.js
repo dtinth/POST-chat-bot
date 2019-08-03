@@ -2,6 +2,7 @@ const express = require('express');
 const line = require('@line/bot-sdk');
 const fs = require('fs');
 const axios = require('axios');
+const didYouMean = require('didyoumean');
 
 const config = {
   channelAccessToken: process.env.TOKEN,
@@ -42,6 +43,14 @@ const handleEvent = async event => {
   if (event.type !== 'message') {
     return null;
   }
+  try {
+    return client.replyMessage(event.replyToken, await handleMessageEvent(event));
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+const handleMessageEvent = async event => {
   const userId = event.source.userId
   if (!userId || !/^U\w+$/.test(userId)) {
     throw new Error(`Invalid user ID: ${userId}`)
@@ -55,15 +64,52 @@ const handleEvent = async event => {
   }
 
   if (event.message.type === 'text') {
-    const text = event.message.text
-    const m1 = /^\s*\/post(?:\s+([^]+))?/i.exec(text)
-    if (text) {
-      
+    const text = event.message.text.trim()
+    const m = /^\/post(?:\s+([^]+)(?:\s+([^]+))?)?/i.exec(text)
+    const commands = [
+      {
+        name: 'set-url',
+        usage: '<URL>',
+        description: 'Set a URL'
+      }
+    ]
+    if (m) {
+      if (!m[1]) {
+        return [
+          {
+            type: 'text',
+            text: 'Hmmm... When you invoked `/post`, you should follow it with a command... such as:'
+          },
+          ...commands.map(c => ({
+            type: 'text',
+            text: `/post ${c.name} ${c.usage}`.trim() + '\n' + c.description
+          })).join('\n')
+        ]
+      }
+      const commandName = m[1].toLowerCase()
+      const matchedCommand = commands.find(c => c.name === commandName)
+      if (!matchedCommand) {
+        const list = commands.map(c => c.name)
+        const result = didYouMean(commandName, list);
+
+        return [
+          {
+            type: 'text',
+            text: `Hmmm... I don’t understand the command \`/post ${commandName}\`...`
+          },
+          ...result ? [
+            {
+              type: 'text',
+              text: `Did you meant… \`/post ${result} ...\`?`
+            },
+          ] : []
+        ]
+      }
     }
   }
 
   if (!url) {
-    return client.replyMessage(event.replyToken, [
+    return [
       {
         type: 'text',
         text: 'Hmmm... It seems like you haven’t set a URL yet! To set a URL, send the following command:'
@@ -72,9 +118,15 @@ const handleEvent = async event => {
         type: 'text',
         text: '/post set-url <URL>'
       }
-    ]);
-    return
+    ]
   }
+  
+  return [
+    {
+      type: 'text',
+      text: 'MEOW'
+    }
+  ]
 }
 
 app.listen(3000);
