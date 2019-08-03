@@ -96,6 +96,7 @@ const handleMessageEvent = async event => {
     throw new Error(`Invalid user ID: ${userId}`)
   }
 
+  console.log(`[${new Date()}] Message from ${userId}`)
   const url = await storage.get(`users.${userId}.url`)
   let secret = await storage.get(`users.${userId}.secret`)
   if (!secret) {
