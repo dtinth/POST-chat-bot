@@ -32,3 +32,9 @@ The POST body will contain these fields:
 | `text` | For `type=text`, the text message. |
 | `sticker` | The sticker ID in format of `<packageId>/<stickerId>`. |
 | `raw` | The raw [message event](https://developers.line.biz/en/reference/messaging-api/#message-event) received from LINE, JSON-encoded. |
+
+For example, the following PHP script will make the bot send back the text:
+
+```php
+<?php echo $_POST['text'];
+```
