@@ -2,8 +2,12 @@ const express = require('express');
 const line = require('@line/bot-sdk');
 const fs = require('fs');
 const axios = require('axios');
+const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const didYouMean = require('didyoumean');
 const qs = require('qs');
+const tough = require('tough-cookie');
+
+axiosCookieJarSupport(axios);
 
 if (process.env.GIT_EMAIL) {
   require('child_process').execSync(`git config user.email ${process.env.GIT_EMAIL}`)
@@ -28,6 +32,7 @@ app.post('/webhooks/line', line.middleware(config), (req, res) => {
 app.use(express.static('static'))
 
 const dataPath = key => `.data/${key}.json`
+
 const storage = {
   async get(key) {
     const filePath = dataPath(key)
@@ -82,11 +87,11 @@ const handleMessageEvent = async event => {
     throw new Error(`Invalid user ID: ${userId}`)
   }
 
-  const url = await storage.get(`${userId}.url`)
-  let secret = await storage.get(`${userId}.secret`)
+  const url = await storage.get(`users.${userId}.url`)
+  let secret = await storage.get(`users.${userId}.secret`)
   if (!secret) {
     secret = generateSecret()
-    await storage.set(`${userId}.secret`, secret)
+    await storage.set(`users.${userId}.secret`, secret)
   }
 
   if (event.message.type === 'text') {
@@ -105,7 +110,7 @@ const handleMessageEvent = async event => {
             }
           }
           const url = text
-          await storage.set(`${userId}.url`, url)
+          await storage.set(`users.${userId}.url`, url)
           return [
             {
               type: 'text',
@@ -132,7 +137,7 @@ const handleMessageEvent = async event => {
         description: 'Resets the secret.',
         async run(text) {
           secret = generateSecret()
-          await storage.set(`${userId}.secret`, secret)
+          await storage.set(`users.${userId}.secret`, secret)
           return [
             {
               type: 'text',

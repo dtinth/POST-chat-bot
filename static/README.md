@@ -66,7 +66,6 @@ Here are some code examples for you to try:
     })
     ```
 
-
 -   Give you a random number between 1 and 6:
 
     ```js
