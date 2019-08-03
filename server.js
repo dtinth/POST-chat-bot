@@ -1,7 +1,9 @@
 const express = require('express');
 const line = require('@line/bot-sdk');
 const fs = require('fs');
-const axios = require('axios');
+const axios = require('axios').create({
+  responseType: 'text'
+});
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const didYouMean = require('didyoumean');
 const qs = require('qs');
@@ -47,6 +49,14 @@ const storage = {
     const filePath = dataPath(key)
     return fs.writeFileSync(filePath, String(value), 'utf8')
   },
+}
+
+const jars = new Map()
+const getJar = userId => {
+  if (jars.has(userId)) return jars.get(userId)
+  const jar = new CookieJar(new cookieStore(`.data/users.${userId}.cookies.json`))
+  jars.set(userId, jar)
+  return jar
 }
 
 const client = new line.Client(config);
@@ -215,15 +225,17 @@ const handleMessageEvent = async event => {
   }
   params.raw = JSON.stringify(event);
 
-  const jar = new CookieJar(new cookieStore(`.data/users.${userId}.cookies.json`))
+  const jar = getJar(userId)
   const response = await axios.post(url, qs.stringify(params), {
     jar,
     withCredentials: true,
-    responseType: 'text',
-    // https://github.com/axios/axios/issues/907
-    transformResponse: [ x => x ],
   });
-  const data = response.data
+  console.log(response.headers)
+  console.log(jar)
+  let data = response.data
+  if (typeof data !== 'string') {
+    data = JSON.stringify(data, null, 2)
+  }
   return [
     {
       type: 'text',
