@@ -7,11 +7,16 @@
   <link rel="stylesheet" href="//unpkg.com/docsify-themeable@0.7.2/dist/css/theme-simple.css">
   <title>POST chat bot</title>
   <style>
-  :root {
-    --theme-hue: 341;
-    --link-color: #A60035;
-  }
-</style>
+    :root {
+      --theme-hue: 341;
+      --link-color: #A60035;
+    }
+    .chat-bubbles {
+      display: flex;
+      flex-direction: column;
+    }
+    
+  </style>
 </head>
 <body>
   <div id="app">
@@ -19,10 +24,58 @@
   </div>
   <script>
     window.$docsify = {
-      //...
+      plugins: [
+        function(hook, vm) {
+          hook.init(function() {
+            // Called when the script starts running, only trigger once, no arguments,
+          });
+
+          hook.beforeEach(function(content) {
+            // Invoked each time before parsing the Markdown file.
+            // ...
+            return content;
+          });
+
+          hook.afterEach(function(html, next) {
+            // Invoked each time after the Markdown file is parsed.
+            // beforeEach and afterEach support asynchronous。
+            // ...
+            // call `next(html)` when task is done.
+            next(html);
+          });
+
+          hook.doneEach(function() {
+            // Invoked each time after the data is fully loaded, no arguments,
+            // ...
+          });
+
+          hook.mounted(function() {
+            // Called after initial completion. Only trigger once, no arguments.
+          });
+
+          hook.ready(function() {
+            // Called after initial completion, no arguments.
+            var el = document.getElementById("runkitEmbed");
+            if (el) {
+              var source = RunKit.sourceFromElement(el);
+              el.innerHTML = "";
+              RunKit.createNotebook({
+                source: source,
+                element: el,
+                mode: 'endpoint',
+                onURLChanged: function(notebook) {
+                  var text = document.getElementById("endpointText");
+                  text.innerHTML = notebook.endpointURL;
+                }
+              })
+            }
+          });
+        }
+      ]
     }
   </script>
   <script src="//unpkg.com/docsify@4.9.4/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify-themeable@0.7.2/dist/js/docsify-themeable.min.js"></script>
+  <script src="https://embed.runkit.com"></script>
 </body>
 </html>

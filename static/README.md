@@ -5,6 +5,28 @@ POST chat bot is a simple LINE bot that sends an HTTP POST request to a URL of y
 
 ## Tutorial
 
+You can prototype your own personal LINE bot in 5 minutes right now.
+
+### Step 1: Add the bot
+
+Scan this QR code below to <a href="https://line.me/R/ti/p/%40605xwmmj">add the bot (@605xwmmj)</a>:
+
+<a href="https://line.me/R/ti/p/%40605xwmmj"><img src="https://qr-official.line.me/sid/M/605xwmmj.png"></a>
+
+### Step 2: Tell the bot to use the URL
+
+Send this text to the bot:
+
+<div class="chat-bubbles">
+  <p class="me">/post set-url <strong id="endpointText">https://<em>[please wait...]</em></strong></p>
+</div>
+
+
+<!-- <div id="runkitEmbed">
+exports.endpoint = function(request, response) {
+    response.end("Hello world!");
+}
+</div> -->
 
 
 ## Reference
@@ -13,7 +35,7 @@ POST chat bot is a simple LINE bot that sends an HTTP POST request to a URL of y
 
 You can add the bot as your friend by scanning the QR code below or <a href="https://line.me/R/ti/p/%40605xwmmj">add @605xwmmj</a>:
 
-<a href="http://nav.cx/7fkj0uj"><img src="https://qr-official.line.me/sid/M/605xwmmj.png"></a>
+<a href="https://line.me/R/ti/p/%40605xwmmj"><img src="https://qr-official.line.me/sid/M/605xwmmj.png"></a>
 
 ### Setting the URL
 
