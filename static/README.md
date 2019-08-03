@@ -9,7 +9,9 @@ You can prototype your own personal LINE bot in 5 minutes right now.
 
 ### Step 1: Add the bot
 
-Scan this QR code below to <a href="https://line.me/R/ti/p/%40605xwmmj">add the bot (@605xwmmj)</a>:
+Scan this QR code below to [add the bot (@605xwmmj)](https://line.me/R/ti/p/%40605xwmmj):
+
+[add the bot (@605xwmmj)](https://line.me/R/ti/p/%40605xwmmj)
 
 <a href="https://line.me/R/ti/p/%40605xwmmj"><img src="https://qr-official.line.me/sid/M/605xwmmj.png"></a>
 
@@ -50,7 +52,7 @@ exports.endpoint = createEndpoint(async request => {
 
 Here are some code examples for you to try:
 
--   This will make the bot give you the text you entered:
+-   This will make the bot echo back the text you send it:
 
     ```js
     exports.endpoint = createEndpoint(async request => {
@@ -58,7 +60,7 @@ Here are some code examples for you to try:
     })
     ```
 
--   Inspecting the request:
+-   Want to know what else is available in `request.body`? Send it back:
 
     ```js
     exports.endpoint = createEndpoint(async request => {
@@ -66,7 +68,7 @@ Here are some code examples for you to try:
     })
     ```
 
--   Give you a random number between 1 and 6:
+-   This makes the bot give you a random number between 1 and 6:
 
     ```js
     exports.endpoint = createEndpoint(async request => {
@@ -74,7 +76,7 @@ Here are some code examples for you to try:
     })
     ```
 
--   Give you a random menu from [Maidreamin API](https://ex-maid-blog.now.sh/):
+-   This makes the bot send you a random menu from [Maidreamin API](https://ex-maid-blog.now.sh/):
 
     ```js
     exports.endpoint = createEndpoint(async request => {
@@ -82,6 +84,20 @@ Here are some code examples for you to try:
             .then(r => r.json())
             .then(d => [].concat(...Object.values(d.data).map(Object.values)))
         return menu[Math.floor(menu.length * Math.random())]
+    })
+    ```
+
+-   This will make the bot keep track of how many messages you sent it:
+
+    ```js
+    exports.endpoint = createEndpoint(async (request, response) => {
+        const count = (+request.cookies.count || 0) + 1
+        response.cookie('count', count)
+        if (count === 1) {
+            return "You’ve sent me 1 message! Send more!"
+        } else {
+            return "You’ve sent me " + count + " messages!"
+        }
     })
     ```
 

@@ -225,11 +225,11 @@ const handleMessageEvent = async event => {
 
   const jar = getJar(userId)
   // https://github.com/axios/axios/issues/48
-  const cookie = (await promisify(jar.getCookies).call(jar, config.url))
+  const cookie = (await promisify(jar.getCookies).call(jar, url))
   console.log(cookie)
   const response = await axios.post(url, qs.stringify(params), {
     headers: {
-      cookie,
+      cookie: cookie.join('; '),
     },
     withCredentials: true,
   });
