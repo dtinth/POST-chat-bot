@@ -203,7 +203,12 @@ const handleMessageEvent = async event => {
   if (event.message.stickerId) {
     params.raw = JSON.stringify(event);
   }
-  const response = await axios.post(url, );
+  const response = await axios.post(url, qs.stringify(params), {
+    responseType: 'text',
+    // https://github.com/axios/axios/issues/907
+    transformResponse: [ x => x ],
+  });
+  console.log(response);
   const data = response.data
   return [
     {
