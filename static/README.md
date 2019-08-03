@@ -28,5 +28,7 @@ The POST body will contain these fields:
 | ----- | ----------- |
 | `secret` | The secret key that can be checked to ensure that the message came from the bot. |
 | `user_id` | The user ID that sent the message. |
-| `type` | The type of the message, such as `text`. |
+| `type` | The type of the message, such as `text` or `sticker`. |
 | `text` | For `type=text`, the text message. |
+| `sticker` | The sticker ID in format of `<packageId>/<stickerId>`. |
+| `raw` | The raw [message event](https://developers.line.biz/en/reference/messaging-api/#message-event) received from LINE, JSON-encoded. |

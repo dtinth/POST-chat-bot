@@ -3,6 +3,7 @@ const line = require('@line/bot-sdk');
 const fs = require('fs');
 const axios = require('axios');
 const didYouMean = require('didyoumean');
+const qs = require('qs');
 
 const config = {
   channelAccessToken: process.env.TOKEN,
@@ -46,15 +47,24 @@ const handleEvent = async event => {
   try {
     await client.replyMessage(event.replyToken, await handleMessageEvent(event));
   } catch (e) {
-    if (e.originalError) {
-      const message = e.originalError.response && e.originalError.response.data && e.originalError.response.data.message
+    let sent = false
+    const message = e.originalError && e.originalError.response && e.originalError.response.data && e.originalError.response.data.message
+    if (message) {
+      console.error(message)
       await client.replyMessage(event.replyToken, {
         type: 'text',
         text: `Error from LINE API: ${message}`
       });
-      console.error(e.originalError.response && e.originalError.response.data)
+      sent = true
     }
     console.error(e)
+    if (!sent) {
+      await client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: `Unknown failure: ${e}`
+      });
+      sent = true
+    }
   }
 }
 
@@ -179,11 +189,26 @@ const handleMessageEvent = async event => {
     ]
   }
 
-  const response = await axios.post(url)
+  const params = {
+  };
+  params.secret = secret;
+  params.user_id = userId;
+  params.type = event.message.type;
+  if (event.message.text) {
+    params.text = event.message.text;
+  }
+  if (event.message.stickerId) {
+    params.sticker = [event.message.packageId, event.message.stickerId].join('/');
+  }
+  if (event.message.stickerId) {
+    params.raw = JSON.stringify(event);
+  }
+  const response = await axios.post(url, );
+  const data = response.data
   return [
     {
       type: 'text',
-      text: 'MEOW'
+      text: String(data)
     }
   ]    
 }
