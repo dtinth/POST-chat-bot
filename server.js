@@ -105,6 +105,7 @@ const handleMessageEvent = async event => {
     await storage.set(`users.${userId}.secret`, secret)
   }
 
+  // TODO: Create a feature flag system to allow beta users to test out new commands.
   if (event.message.type === 'text') {
     const text = event.message.text.trim()
     const m = /^\/post(?:\s+([\S]+)(?:\s+([^]+))?)?/i.exec(text)
@@ -161,6 +162,10 @@ const handleMessageEvent = async event => {
           ]
         }
       },
+      // TODO: Add "share" command
+      // TODO: Add "unshare" command
+      // TODO: Add "join" command
+      // TODO: Add "leave" command
     ]
     if (m) {
       if (!m[1]) {
