@@ -47,6 +47,11 @@ const handleEvent = async event => {
     await client.replyMessage(event.replyToken, await handleMessageEvent(event));
   } catch (e) {
     if (e.originalError) {
+      const message = e.originalError.response && e.originalError.response.data && e.originalError.response.data.message
+      await client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: `Error from LINE API: ${message}`
+      });
       console.error(e.originalError.response && e.originalError.response.data)
     }
     console.error(e)
@@ -70,7 +75,7 @@ const handleMessageEvent = async event => {
 
   if (event.message.type === 'text') {
     const text = event.message.text.trim()
-    const m = /^\/post(?:\s+([^]+)(?:\s+([^]+))?)?/i.exec(text)
+    const m = /^\/post(?:\s+([\S]+)(?:\s+([^]+))?)?/i.exec(text)
     const commands = [
       {
         name: 'set-url',
@@ -84,6 +89,7 @@ const handleMessageEvent = async event => {
             }
           }
           const url = text
+          await storage.set(`${userId}.url`, url)
           return [
             {
               type: 'text',
@@ -91,11 +97,15 @@ const handleMessageEvent = async event => {
             },
             {
               type: 'text',
-              text: `Now when you send me messages, I will make a POST request to that URL.`
+              text: `From now, when you send me messages, I will make a POST request to that URL.`
             },
             {
               type: 'text',
-              text: `The "secret" parameter is ${secret}. Check it to verify that the request came from me.`
+              text: `To verify that the request came from me, you can check the "secret" parameter, which should be:`
+            },
+            {
+              type: 'text',
+              text: `${secret}`
             },
           ]
         }
@@ -110,7 +120,11 @@ const handleMessageEvent = async event => {
           return [
             {
               type: 'text',
-              text: `The "secret" parameter has been changed to "${secret}. Check it to verify that the request came from me.`
+              text: `This is your new "secret" parameter:`
+            },
+            {
+              type: 'text',
+              text: `${secret}`
             },
           ]
         }
@@ -164,13 +178,14 @@ const handleMessageEvent = async event => {
       }
     ]
   }
-  
+
+  const response = await axios.post(url)
   return [
     {
       type: 'text',
       text: 'MEOW'
     }
-  ]
+  ]    
 }
 
 app.listen(3000);

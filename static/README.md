@@ -18,3 +18,15 @@ Send this command to the bot, replacing `<URL>` with an actual URL you want:
 ```
 /post set-url <URL>
 ```
+
+### Handle the request
+
+POST chat bot will send an HTTP POST request to the URL you set with `Content-Type` header set to `application/x-www-form-urlencoded`.
+The POST body will contain these fields:
+
+| field | description |
+| ----- | ----------- |
+| `secret` | The secret key that can be checked to ensure that the message came from the bot. |
+| `user_id` | The user ID that sent the message. |
+| `type` | The type of the message, such as `text`. |
+| `text` | For `type=text`, the text message. |
