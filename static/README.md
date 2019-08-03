@@ -148,6 +148,12 @@ When you set the URL, the bot will give you a "secret" string.
 This secret string is private between you and the bot.
 When making a POST request, the bot will send this secret string in the POST body under a parameter called `secret`.
 
+<!--
+// TODO: Remove this comment when sharing endpoints is released.
+//
+**Security note:** If you share your endpoint allows others to run an arbitrary code, please be careful as they may be able to access the secret.
+-->
+
 ### Sending response
 
 The bot will send the response back to the user.
@@ -157,3 +163,7 @@ The bot will send the response back to the user.
 - **Rich message response:** If you return a JSON array where each member is an object containing a string property `type`,
   then it is assumed that the response is an array of [LINE Message Objects](https://developers.line.biz/en/reference/messaging-api/#message-objects),
   and will be passed on to the Line API.
+
+<!--
+// TODO: Write the "Sharing endpoint" section
+-->

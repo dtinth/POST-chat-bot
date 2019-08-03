@@ -173,7 +173,10 @@ const handleMessageEvent = async event => {
 
       // TODO: Add "share" command
       //
-      // This command allows user to share their bot with other users.
+      // This command allows user to share their endpoint with other users, without having to share the URL or secret.
+      // Once a user joined, they can send message to your endpoint, using your secret.
+      // However the user ID will appear to originate from the joining user.
+      //
       // The command will generate temporarily 6-digit key. For instance, 123456.
       // Other users can use it by sending `/post join 123456`.
       //
@@ -246,7 +249,10 @@ const handleMessageEvent = async event => {
     }
   }
 
+  // TODO: Check if user has joined a shared session and load the URL and secret from that.
+
   if (!url) {
+    // TODO: Check if a 6-digit number is provided and join if the join key exists.
     return [
       {
         type: 'text',
