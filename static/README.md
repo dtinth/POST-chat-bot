@@ -13,9 +13,19 @@ Scan this QR code below to [add the bot (@605xwmmj)](https://line.me/R/ti/p/%406
 
 [![Add the bot](https://qr-official.line.me/sid/M/605xwmmj.png)](https://line.me/R/ti/p/%40605xwmmj)
 
-### Step 2: Tell the bot to use the URL
+### Step 2: Meet the editor
 
-Send this text to the bot:
+We will set the bot to run the following code:
+
+<div id="runkitEmbed">
+exports.endpoint = createEndpoint(async request => {
+    return 'Hello, world!'
+})
+</div>
+
+### Step 3: Tell the bot to use the URL
+
+<span id="sendLink">Send</span> this text to the bot:
 
 <div class="chat-bubbles">
   <p class="bubble -me -clickable" onclick="docsUtils.copy('copyText')">
@@ -27,7 +37,7 @@ Send this text to the bot:
   <p class="bubble -you">From now, when you send me messages, I will make a POST request to that URL.</p>
 </div>
 
-### Step 3: Send it messages
+### Step 4: Send it messages
 
 When you send it a message, it will reply back with “Hello, world!”
 
@@ -36,18 +46,9 @@ When you send it a message, it will reply back with “Hello, world!”
   <p class="bubble -you">Hello, world!</p>
 </div>
 
-### Step 4: Edit the code
+### Step 5: Edit the code
 
-You can change the code below, to make it do more things!
-
-<div id="runkitEmbed">
-exports.endpoint = createEndpoint(async request => {
-    return 'Hello, world!'
-})
-</div>
-
-#### Code examples
-
+You can go back to the code editor above, and change the code to make it do more things!
 Here are some code examples for you to try:
 
 -   This will make the bot echo back the text you send it:
@@ -55,14 +56,6 @@ Here are some code examples for you to try:
     ```js
     exports.endpoint = createEndpoint(async request => {
         return request.body.text
-    })
-    ```
-
--   Want to know what else is available in `request.body`? Send it back:
-
-    ```js
-    exports.endpoint = createEndpoint(async request => {
-        return request.body
     })
     ```
 
@@ -85,19 +78,7 @@ Here are some code examples for you to try:
     })
     ```
 
--   This will make the bot keep track of how many messages you sent it:
-
-    ```js
-    exports.endpoint = createEndpoint(async (request, response) => {
-        const count = (+request.cookies.count || 0) + 1
-        response.cookie('count', count)
-        if (count === 1) {
-            return "You’ve sent me 1 message! Send more!"
-        } else {
-            return "You’ve sent me " + count + " messages!"
-        }
-    })
-    ```
+-   [**See more examples &rarr;**](https://github.com/dtinth/POST-chat-bot/wiki/RunKit-Code-Examples)
 
 ## Reference
 

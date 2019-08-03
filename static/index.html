@@ -111,6 +111,7 @@
                 onURLChanged: function(notebook) {
                   var text = document.getElementById("endpointText");
                   text.innerHTML = notebook.endpointURL;
+                  document.querySelector('#sendLink').innerHTML = `<a href="https://line.me/R/ti/p/%40605xwmmj" target="_blank">Send</a>`
                 }
               })
             }
