@@ -247,6 +247,10 @@ const handleMessageEvent = async event => {
 
   let data = response.data
   if (typeof data !== 'string') {
+    const isRichMessage = Array.isArray(data) && data.length > 0 && data.every(item => item && typeof item.type === 'string')
+    if (isRichMessage) {
+      return data
+    }
     data = JSON.stringify(data, null, 2)
   }
   return [

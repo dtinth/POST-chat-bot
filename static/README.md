@@ -146,9 +146,13 @@ When you set the URL, the bot will give you a "secret" string.
 
 This secret string is private between you and the bot.
 When making a POST request, the bot will send this secret string in the POST body under a parameter called `secret`.
-In PHP, you can access this via `$_POST['secret']`.
 
-```php
+### Sending response
 
-```
+The bot will send the response back to the user.
 
+- **Plain text response** is the default.
+
+- **Rich message response:** If you return a JSON array where each member is an object containing a string property `type`,
+  then it is assumed that the response is an array of [LINE Message Objects](https://developers.line.biz/en/reference/messaging-api/#message-objects),
+  and will be passed on to the Line API.
