@@ -48,9 +48,11 @@ const handleEvent = async event => {
     await client.replyMessage(event.replyToken, await handleMessageEvent(event));
   } catch (e) {
     let sent = false
-    const message = e.originalError && e.originalError.response && e.originalError.response.data && e.originalError.response.data.message
+    let message = e.originalError && e.originalError.response && e.originalError.response.data && e.originalError.response.data.message
     if (message) {
-      console.error(message)
+      if (Array.isArray(e.originalError.response.data.details)) {
+        message += e.originalError.response.data.details.map(d => `\n${d.property}: ${d.message}`).join('')
+      }
       await client.replyMessage(event.replyToken, {
         type: 'text',
         text: `Error from LINE API: ${message}`
