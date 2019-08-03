@@ -29,7 +29,7 @@ Send this text to the bot:
 
 ### Step 3: Send it messages
 
-When you send it a message, it will reply back with “Hello world!”
+When you send it a message, it will reply back with “Hello, world!”
 
 <div class="chat-bubbles">
   <p class="bubble -me">test</p>
