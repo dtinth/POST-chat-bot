@@ -7,11 +7,17 @@ const config = {
 };
 
 const app = express();
-app.post('/webhook', line.middleware(config), (req, res) => {
+
+app.post('/webhooks/line', line.middleware(config), (req, res) => {
   Promise
     .all(req.body.events.map(handleEvent))
-    .then((result) => res.json(result));
+    .then((result) => res.json(result))
+    .catch(e => {
+      console.error(e);
+    });
 });
+
+app.use(express.static('static'));
 
 const client = new line.Client(config);
 const handleEvent = (event) => {
