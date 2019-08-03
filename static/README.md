@@ -49,6 +49,8 @@ When you send it a message, it will reply back with “Hello, world!”
 ### Step 5: Edit the code
 
 You can go back to the code editor above, and change the code to make it do more things!
+The changes will take effect immediately; no need to save!
+
 Here are some code examples for you to try:
 
 -   This will make the bot echo back the text you send it:
