@@ -61,11 +61,12 @@ Here are some code examples for you to try:
     })
     ```
 
--   This makes the bot give you a random number between 1 and 6:
+-   This makes the bot send you a random LINE sticker:
 
     ```js
     exports.endpoint = createEndpoint(async request => {
-        return Math.floor(Math.random() * 6) + 1
+        const stickerId = Math.floor(Math.random() * 17) + 1
+        return [{ type: 'sticker', packageId: 1, stickerId }]
     })
     ```
 
