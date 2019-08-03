@@ -231,6 +231,7 @@ const handleMessageEvent = async event => {
       cookie: cookie.join('; '),
     },
     withCredentials: true,
+    validateStatus: () => true,
   });
   try {
     await (response.headers['set-cookie'] || []).map(c => {
