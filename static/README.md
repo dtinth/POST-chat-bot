@@ -149,7 +149,7 @@ This secret string is private between you and the bot.
 When making a POST request, the bot will send this secret string in the POST body under a parameter called `secret`.
 
 <!--
-// TODO [$5d45e58c9444f1000761ca00]: Remove this comment when sharing endpoints is released.
+// TODO [#9]: Remove this comment when sharing endpoints is released.
 //
 **Security note:** If you share your endpoint allows others to run an arbitrary code, please be careful as they may be able to access the secret.
 -->
@@ -165,5 +165,5 @@ The bot will send the response back to the user.
   and will be passed on to the Line API.
 
 <!--
-// TODO [$5d45e58c9444f1000761ca01]: Write the "Sharing endpoint" section
+// TODO [#10]: Write the "Sharing endpoint" section
 -->

@@ -105,7 +105,7 @@ const handleMessageEvent = async event => {
     await storage.set(`users.${userId}.secret`, secret)
   }
 
-  // TODO [$5d45e58c9444f1000761c9f8]: Create a feature flag system to allow beta users to test out new commands.
+  // TODO [#1]: Create a feature flag system to allow beta users to test out new commands.
   //
   // Detailed design:
   // - Create an ENV that holds LINE user IDs that should have beta access, comma separated.
@@ -167,11 +167,11 @@ const handleMessageEvent = async event => {
           ]
         }
       },
-      // TODO [$5d45e58c9444f1000761c9f9]: Add "unset-url" command
+      // TODO [#2]: Add "unset-url" command
       //
       // This command removes the set URL.
 
-      // TODO [$5d45e58c9444f1000761c9fa]: Add "share" command
+      // TODO [#3]: Add "share" command
       //
       // This command allows user to share their endpoint with other users, without having to share the URL or secret.
       // Once a user joined, they can send message to your endpoint, using your secret.
@@ -196,7 +196,7 @@ const handleMessageEvent = async event => {
       // - **join key** — The six digit number used to join a share session.
       // - **share token** — A secret token that is used by another user to confirm that they have access. This is used internally and never exposed to the user.
 
-      // TODO [$5d45e58c9444f1000761c9fb]: Add "unshare" command
+      // TODO [#4]: Add "unshare" command
       //
       // This command ends the sharing session immediately.
       // Everyone who has previously joined the session will be forced to leave.
@@ -204,12 +204,12 @@ const handleMessageEvent = async event => {
       // 1. Check if an existing "join key" is associated, and still belongs to the user. If so, destroy that join key.
       // 2. Delete the user’s share token.
 
-      // TODO [$5d45e58c9444f1000761c9fc]: Add "join" command
+      // TODO [#5]: Add "join" command
       //
       // This command lets user join an active sharing session.
       // For convenience, a user without an URL set can send the 6-digit number to the bot to join the session.
 
-      // TODO [$5d45e58c9444f1000761c9fd]: Add "leave" command
+      // TODO [#6]: Add "leave" command
       //
       // This command lets user leave the session they’ve joined.
     ]
@@ -249,10 +249,10 @@ const handleMessageEvent = async event => {
     }
   }
 
-  // TODO [$5d45e58c9444f1000761c9fe]: Check if user has joined a shared session and load the URL and secret from that.
+  // TODO [#7]: Check if user has joined a shared session and load the URL and secret from that.
 
   if (!url) {
-    // TODO [$5d45e58c9444f1000761c9ff]: Check if a 6-digit number is provided and join if the join key exists.
+    // TODO [#8]: Check if a 6-digit number is provided and join if the join key exists.
     return [
       {
         type: 'text',
