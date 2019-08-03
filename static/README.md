@@ -3,15 +3,19 @@ POST chat bot
 
 POST chat bot is a simple LINE bot that sends an HTTP POST request to a URL of your choosing.
 
-## Usage
+## Tutorial
 
-### Add the bot
+
+
+## Reference
+
+### Adding the bot
 
 You can add the bot as your friend by scanning the QR code below or <a href="https://line.me/R/ti/p/%40605xwmmj">add @605xwmmj</a>:
 
 <a href="http://nav.cx/7fkj0uj"><img src="https://qr-official.line.me/sid/M/605xwmmj.png"></a>
 
-### Set the URL
+### Setting the URL
 
 Send this command to the bot, replacing `<URL>` with an actual URL you want:
 
@@ -19,7 +23,7 @@ Send this command to the bot, replacing `<URL>` with an actual URL you want:
 /post set-url <URL>
 ```
 
-### Handle the request
+### Handling requests
 
 POST chat bot will send an HTTP POST request to the URL you set with `Content-Type` header set to `application/x-www-form-urlencoded`.
 The POST body will contain these fields:
