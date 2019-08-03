@@ -37,15 +37,25 @@ When you send it a message, it will reply back with “Hello world!”
 You can change the code below, to make it do more things!
 
 <div id="runkitEmbed">
-const express = require("express")
-const app = express()
-app.use
-exports.endpoint = function(request, response) {
-    response.end("Hello world!");
-}
+var endpoint = require("@runkit/runkit/json-endpoint/1.0.0");
+endpoint(exports, request => {
+  return "Hello, world!"
+})
 </div>
 
+Here are some examples for you to try:
 
+- Inspecting the request:
+
+  ```js
+    return request.body
+  ```
+
+- Repeating the text user entered:
+
+  ```js
+    return request.body.text
+  ```
 
 ## Reference
 
