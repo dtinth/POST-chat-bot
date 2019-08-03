@@ -17,7 +17,8 @@
     "qs": "^6.7.0",
     "tough-cookie": "^3.0.1",
     "axios-cookiejar-support": "^0.4.2",
-    "cookie-parser": "^1.4.4"
+    "cookie-parser": "^1.4.4",
+    "tough-cookie-file-store": "^1.2.0"
   },
   "engines": {
     "node": "8.x"

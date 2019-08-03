@@ -5,7 +5,8 @@ const axios = require('axios');
 const axiosCookieJarSupport = require('axios-cookiejar-support').default;
 const didYouMean = require('didyoumean');
 const qs = require('qs');
-const tough = require('tough-cookie');
+const cookieStore = require('tough-cookie-file-store');
+const CookieJar = require('tough-cookie').CookieJar;
 
 axiosCookieJarSupport(axios);
 
@@ -213,12 +214,15 @@ const handleMessageEvent = async event => {
     params.sticker = [event.message.packageId, event.message.stickerId].join('/');
   }
   params.raw = JSON.stringify(event);
+
+  const jar = new CookieJar(new cookieStore(`.data/users.${userId}.cookies.json`))
   const response = await axios.post(url, qs.stringify(params), {
+    jar,
+    withCredentials: true,
     responseType: 'text',
     // https://github.com/axios/axios/issues/907
     transformResponse: [ x => x ],
   });
-  console.log(response);
   const data = response.data
   return [
     {
