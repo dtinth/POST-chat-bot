@@ -106,6 +106,8 @@ const handleMessageEvent = async event => {
   }
 
   // TODO: Create a feature flag system to allow beta users to test out new commands.
+  //
+  // Detailed design
   if (event.message.type === 'text') {
     const text = event.message.text.trim()
     const m = /^\/post(?:\s+([\S]+)(?:\s+([^]+))?)?/i.exec(text)
@@ -162,10 +164,32 @@ const handleMessageEvent = async event => {
           ]
         }
       },
+      // TODO: Add "unset-url" command
+      //
+      // This command removes the set URL.
+
       // TODO: Add "share" command
+      //
+      // This command allows user to share their bot with other users.
+      // The command will generate temporarily 6-digit key. For instance, 123456.
+      // Other users can use it by sending `/post join 123456`.
+      //
+      // The 6-digit key only works for 6 hours,
+      // but the users who previously joined remains joined even after the key expired.
+
       // TODO: Add "unshare" command
+      //
+      // This command ends the sharing session immediately.
+      // Everyone who has previously joined the session will be forced to leave.
+
       // TODO: Add "join" command
+      //
+      // This command lets user join an active sharing session.
+      // For convenience, a user without an URL set can send the 6-digit number to the bot to join the session.
+
       // TODO: Add "leave" command
+      //
+      // This command lets user leave the session they’ve joined.
     ]
     if (m) {
       if (!m[1]) {
