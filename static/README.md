@@ -33,7 +33,7 @@ When you send it a message, it will reply back with “Hello world!”
 
 <div class="chat-bubbles">
   <p class="bubble -me">test</p>
-  <p class="bubble -you">Hello world!</p>
+  <p class="bubble -you">Hello, world!</p>
 </div>
 
 ### Step 4: Edit the code
@@ -42,23 +42,48 @@ You can change the code below, to make it do more things!
 
 <div id="runkitEmbed">
 exports.endpoint = createEndpoint(async request => {
-    return request
+    return 'Hello, world!'
 })
 </div>
 
-Here are some examples for you to try:
+#### Code examples
 
-- Inspecting the request:
+Here are some code examples for you to try:
 
-  ```js
-    return request.body
-  ```
+-   Inspecting the request:
 
-- Repeating the text user entered:
+    ```js
+    exports.endpoint = createEndpoint(async request => {
+        return request.body
+    })
+    ```
 
-  ```js
-    return request.body.text
-  ```
+-   Repeating the text you entered:
+
+    ```js
+    exports.endpoint = createEndpoint(async request => {
+        return request.body.text
+    })
+    ```
+
+-   Give you a random number between 1 and 6:
+
+    ```js
+    exports.endpoint = createEndpoint(async request => {
+        return Math.floor(Math.random() * 6) + 1
+    })
+    ```
+
+-   Give you a random menu from [Maidreamin API](https://ex-maid-blog.now.sh/):
+
+    ```js
+    exports.endpoint = createEndpoint(async request => {
+        const menu = await fetch('https://maidreamin.now.sh/menu')
+            .then(r => r.json())
+            .then(d => [].concat(...Object.values(d.data).map(Object.values)))
+        return menu[Math.floor(menu.length * Math.random())]
+    })
+    ```
 
 ## Reference
 

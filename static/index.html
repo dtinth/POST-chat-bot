@@ -89,7 +89,7 @@
                 source: source,
                 element: el,
                 mode: 'endpoint',
-                preamble: "const { createEndpoint } = require('@runkit/dtinth/post-endpoint-utils/1.0.0')\n",
+                preamble: "const { createEndpoint } = require('@runkit/dtinth/post-endpoint-utils/1.0.0')\nconst fetch = require('node-fetch')\n",
                 onURLChanged: function(notebook) {
                   var text = document.getElementById("endpointText");
                   text.innerHTML = notebook.endpointURL;
