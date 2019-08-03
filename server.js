@@ -32,7 +32,7 @@ app.post('/webhooks/line', line.middleware(config), (req, res) => {
 
 app.use(express.static('static'))
 
-const dataPath = key => `.data/${key}.json`
+const dataPath = key => `.data/${key}.txt`
 
 const storage = {
   async get(key) {
@@ -107,7 +107,10 @@ const handleMessageEvent = async event => {
 
   // TODO: Create a feature flag system to allow beta users to test out new commands.
   //
-  // Detailed design
+  // Detailed design:
+  // - Create an ENV that holds LINE user IDs that should have beta access, comma separated.
+  // - When booting the environment variable file is loaded and saved into a Set.
+  // - The current user is considered a better user if the user ID appears in this Set.
   if (event.message.type === 'text') {
     const text = event.message.text.trim()
     const m = /^\/post(?:\s+([\S]+)(?:\s+([^]+))?)?/i.exec(text)
@@ -176,11 +179,27 @@ const handleMessageEvent = async event => {
       //
       // The 6-digit key only works for 6 hours,
       // but the users who previously joined remains joined even after the key expired.
+      //
+      // Design:
+      // 1. Check if a sharing session is active. If not, generate a "share token" and assign to `users.${userId}.shareToken`.
+      // 2. Check if an existing "join key" is associated, and still belongs to the user.
+      //     - If yes, extend its expiry time by setting it to now plus 6 hours.
+      //     - If no, generate a new, unused join key, and associate it to the user+share token, setting its expiry time to now plus 6 hours.
+      //       1. Write `{ userId, shareToken, expires}` to `joinKeys.${joinJey}`.
+      //       2. Write `${joinKey}` to `users.${userId}.currentJoinKey`.
+      // 3. Display the "join key".
+      //
+      // Glossary:
+      // - **join key** — The six digit number used to join a share session.
+      // - **share token** — A secret token that is used by another user to confirm that they have access. This is used internally and never exposed to the user.
 
       // TODO: Add "unshare" command
       //
       // This command ends the sharing session immediately.
       // Everyone who has previously joined the session will be forced to leave.
+      //
+      // 1. Check if an existing "join key" is associated, and still belongs to the user. If so, destroy that join key.
+      // 2. Delete the user’s share token.
 
       // TODO: Add "join" command
       //
