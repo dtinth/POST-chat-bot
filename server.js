@@ -103,7 +103,7 @@ const handleMessageEvent = async event => {
           return [
             {
               type: 'text',
-              text: `Alright! I’ve changed the URL :D`
+              text: `Alright! I’ve changed the URL 😊`
             },
             {
               type: 'text',

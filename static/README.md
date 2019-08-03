@@ -19,14 +19,29 @@ Send this text to the bot:
 
 <div class="chat-bubbles">
   <p class="me">/post set-url <strong id="endpointText">https://<em>[please wait...]</em></strong></p>
+  <p class="you">Alright! I’ve changed the URL 😊</p>
+  <p class="you">From now, when you send me messages, I will make a POST request to that URL.</p>
 </div>
 
+### Step 3: Send it messages
 
-<!-- <div id="runkitEmbed">
+When you send it a message, it will reply back with “Hello world!”
+
+<div class="chat-bubbles">
+  <p class="me">test</p>
+  <p class="you">Hello world!</p>
+</div>
+
+### Step 4: Edit the code
+
+You can change the code below, to make it do more things!
+
+<div id="runkitEmbed">
 exports.endpoint = function(request, response) {
     response.end("Hello world!");
 }
-</div> -->
+</div>
+
 
 
 ## Reference
