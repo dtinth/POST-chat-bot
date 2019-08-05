@@ -280,6 +280,8 @@ const handleMessageEvent = async event => {
     params.sticker = [event.message.packageId, event.message.stickerId].join('/');
   }
   params.raw = JSON.stringify(event);
+  
+  // TODO: Convert to use multipart/form-data for file uploads.
 
   const jar = getJar(userId)
   // https://github.com/axios/axios/issues/48
