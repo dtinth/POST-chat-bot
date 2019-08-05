@@ -137,9 +137,18 @@ const handleMessageEvent = async event => {
               type: 'text',
               text: `From now, when you send me messages, I will make a POST request to that URL.`
             },
+          ]
+        }
+      },
+      {
+        name: 'get-secret',
+        usage: '',
+        description: 'Show the secret used to authenticate the POST request.',
+        async run() {
+          return [
             {
               type: 'text',
-              text: `To verify that the request came from me, you can check the "secret" parameter, which should be:`
+              text: `This is the secret:`
             },
             {
               type: 'text',

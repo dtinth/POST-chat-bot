@@ -83,7 +83,7 @@ Here are some code examples for you to try:
 
 -   [**See more examples &rarr;**](https://github.com/dtinth/POST-chat-bot/wiki/RunKit-Code-Examples)
 
-## Reference
+## Usage reference
 
 ### Adding the bot
 
@@ -138,10 +138,7 @@ On the next message, the bot will send back the stored cookies.
 When you set the URL, the bot will give you a "secret" string.
 
 <div class="chat-bubbles">
-  <p class="bubble -me">/post set-url &lt;URL&gt;</p>
-  <p class="bubble -you">Alright! I’ve changed the URL 😊</p>
-  <p class="bubble -you">From now, when you send me messages, I will make a POST request to that URL.</p>
-  <p class="bubble -you">To verify that the request came from me, you can check the "secret" parameter, which should be:</p>
+  <p class="bubble -me">/post get-secret</p>
   <p class="bubble -you"><strong>SK5d3759ec6f0de68106b660a64696174316bd574a</strong></p>
 </div>
 
@@ -167,3 +164,17 @@ The bot will send the response back to the user.
 <!--
 // TODO [#10]: Write the "Sharing endpoint" section
 -->
+
+## `/post` command reference
+
+### `/post set-url <URL>`
+
+Changes the bot URL to `<URL>`.
+
+### `/post get-secret`
+
+Show the secret used to authenticate the POST request.
+
+### `/post reset-secret`
+
+Resets the secret.
