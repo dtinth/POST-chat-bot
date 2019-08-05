@@ -107,12 +107,13 @@ The POST body will contain these fields:
 | field | description |
 | ----- | ----------- |
 | `id` | The message ID from LINE. |
-| `secret` | The secret key that can be checked to ensure that the message came from the bot. See the "Verifying request authenticity" section. |
 | `user_id` | The user ID that sent the message. |
 | `type` | The type of the message, such as `text` or `sticker`. |
 | `text` | For `type=text`, the text message. |
 | `sticker` | The sticker ID in format of `<packageId>/<stickerId>`. |
 | `raw` | The raw [message event](https://developers.line.biz/en/reference/messaging-api/#message-event) received from LINE, JSON-encoded. |
+| `timestamp` | Number of seconds since epoch. |
+| `signature` | See [verifying request authenticity](#verifying-request-authenticity) section |
 
 For example, the following PHP script will make the bot send back the text you entered:
 
@@ -135,15 +136,23 @@ On the next message, the bot will send back the stored cookies.
 
 ### Verifying request authenticity
 
-When you set the URL, the bot will give you a "secret" string.
+To verify that the POST request really comes from the POST bot,
+it will generate for you a "secret" key that is used to authenticate the POST requests.
 
 <div class="chat-bubbles">
   <p class="bubble -me">/post get-secret</p>
   <p class="bubble -you"><strong>SK5d3759ec6f0de68106b660a64696174316bd574a</strong></p>
 </div>
 
-This secret string is private between you and the bot.
+1. To prevent unauthorized request, check the `signature` parameter.
+   (Instructions to be written.)
+
+2. To prevent replay attack, ensure that `id` is never used twice and that `timestamp` is recent enough.
+   Otherwise, an attacker may send a request with same `id` and `timestamp` but with different message/username.
+
+<!--
 When making a POST request, the bot will send this secret string in the POST body under a parameter called `secret`.
+-->
 
 <!--
 // TODO [#9]: Remove this comment when sharing endpoints is released.
