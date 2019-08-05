@@ -281,7 +281,7 @@ const handleMessageEvent = async event => {
   }
   params.raw = JSON.stringify(event);
   
-  // TODO: Convert to use multipart/form-data for file uploads.
+  // TODO: Create a signed URL for retrieving the file.
 
   const jar = getJar(userId)
   // https://github.com/axios/axios/issues/48
