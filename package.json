@@ -10,7 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.16.2",
+    "express": "^4.17.3",
     "@line/bot-sdk": "^6.8.1",
     "axios": "^0.19.0",
     "didyoumean": "^1.2.1",
